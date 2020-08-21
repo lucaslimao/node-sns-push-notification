@@ -1,1 +1,0 @@
-# node-sns-push-notification
