@@ -1,0 +1,19 @@
+{
+  "name": "sns-push-notification",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucaslimao/node-sns-push-notification.git"
+  },
+  "author": "Lucas Limao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucaslimao/node-sns-push-notification/issues"
+  },
+  "homepage": "https://github.com/lucaslimao/node-sns-push-notification#readme"
+}
