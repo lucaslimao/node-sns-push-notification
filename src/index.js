@@ -48,6 +48,8 @@ const createPushEndpoint = async (token, platform) => {
 
 const publishToTarget = async (target, message, subject) => {
 
+    console.log('Entrou no envio de mensagem direta. ')
+
     try {
 
         const params = {
@@ -56,17 +58,22 @@ const publishToTarget = async (target, message, subject) => {
             TargetArn: target
         }
         
-        const { data } = await sns.publish(params).promise()
+        const response = await sns.publish(params).promise()
 
-        return data
+        console.log(response)
+
+        return response
 
     } catch (err) {
+        console.log('Erro inesperado')
         throw err
     }
 
 }
 
 const publishToTopic = async (target, message, subject) => {
+
+    console.log('Entrou no envio de mensagem em massa. ')
 
     try {
 
@@ -76,9 +83,11 @@ const publishToTopic = async (target, message, subject) => {
             TopicArn: target
         }
         
-        const { data } = await sns.publish(params).promise()
+        const response = await sns.publish(params).promise()
 
-        return data
+        console.log(response)
+
+        return response
 
     } catch (err) {
         throw err
@@ -88,6 +97,8 @@ const publishToTopic = async (target, message, subject) => {
 
 const subscribe = async (topic, endpoint) => {
 
+    console.log('Entrou no subscribe ')
+
     try {
 
         const params = {
@@ -96,11 +107,14 @@ const subscribe = async (topic, endpoint) => {
             Endpoint: endpoint
         }
         
-        const { data } = await sns.subscribe(params).promise()
+        const response = await sns.subscribe(params).promise()
 
-        return data
+        console.log(response)
+
+        return response
 
     } catch (err) {
+        console.log('Erro inesperado')
         throw err
     }
 

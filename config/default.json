@@ -1,0 +1,10 @@
+{
+    "aws": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "platform": {
+            "ios": "",
+            "android": ""
+        }
+    }
+}
