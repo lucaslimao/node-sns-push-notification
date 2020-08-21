@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/lucaslimao/node-sns-push-notification/issues"
   },
-  "homepage": "https://github.com/lucaslimao/node-sns-push-notification#readme"
+  "homepage": "https://github.com/lucaslimao/node-sns-push-notification#readme",
+  "dependencies": {
+    "config": "3.3.0"
+  },
+  "devDependencies": {
+    "aws-sdk": "2.640.0",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.0"
+  }
 }

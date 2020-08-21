@@ -6,7 +6,7 @@ AWS.config.update({
     secretAccessKey: config.get('aws.secretAccessKey')
 })
 
-const sns = new AWS.SNS({ apiVersion: '2010-03-31', region: process.env.REGION })
+const sns = new AWS.SNS({ apiVersion: '2010-03-31', region: 'us-east-1' })
 
 const PLATFORM_ARN = {
     'ios': config.get('aws.platform.ios'),
@@ -15,7 +15,9 @@ const PLATFORM_ARN = {
 
 const getPlatformArn = (platform) => PLATFORM_ARN[platform]
 
-const createPushEndpoint = (token, platform) => {
+const createPushEndpoint = async (token, platform) => {
+
+    console.log('Entrou na criação do endpoint. ')
 
     try {
 
@@ -26,17 +28,27 @@ const createPushEndpoint = (token, platform) => {
             CustomUserData: ''
         }
         
-        const { data } = await sns.createPlatformEndpoint(params).promise()
+        const response = await sns.createPlatformEndpoint(params).promise()
 
-        return data
+        if (!response || !response.hasOwnProperty('EndpointArn')) {
+            throw new Error('Não criou o endpoint. ')
+        }
+
+        console.log('Retorno sucesso')
+        console.log(response)
+
+        return response
 
     } catch (err) {
+        console.log('Erro inesperado. ')
         throw err
     }
 
 }
 
-const publishToTarget = (target, message, subject) => {
+const publishToTarget = async (target, message, subject) => {
+
+    console.log('Entrou no envio de mensagem direta. ')
 
     try {
 
@@ -46,17 +58,22 @@ const publishToTarget = (target, message, subject) => {
             TargetArn: target
         }
         
-        const { data } = await sns.publish(params).promise()
+        const response = await sns.publish(params).promise()
 
-        return data
+        console.log(response)
+
+        return response
 
     } catch (err) {
+        console.log('Erro inesperado')
         throw err
     }
 
 }
 
-const publishToTopic = (target, message, subject) => {
+const publishToTopic = async (target, message, subject) => {
+
+    console.log('Entrou no envio de mensagem em massa. ')
 
     try {
 
@@ -66,9 +83,11 @@ const publishToTopic = (target, message, subject) => {
             TopicArn: target
         }
         
-        const { data } = await sns.publish(params).promise()
+        const response = await sns.publish(params).promise()
 
-        return data
+        console.log(response)
+
+        return response
 
     } catch (err) {
         throw err
@@ -76,7 +95,9 @@ const publishToTopic = (target, message, subject) => {
 
 }
 
-const subscribe = (topic, endpoint) => {
+const subscribe = async (topic, endpoint) => {
+
+    console.log('Entrou no subscribe ')
 
     try {
 
@@ -86,11 +107,14 @@ const subscribe = (topic, endpoint) => {
             Endpoint: endpoint
         }
         
-        const { data } = await sns.subscribe(params).promise()
+        const response = await sns.subscribe(params).promise()
 
-        return data
+        console.log(response)
+
+        return response
 
     } catch (err) {
+        console.log('Erro inesperado')
         throw err
     }
 
