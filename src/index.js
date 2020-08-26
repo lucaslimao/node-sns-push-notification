@@ -10,16 +10,23 @@ const PLATFORM_ARN = {
     'android': config.get('aws.platform.android')
 }
 
-const getMessageStructure = (message) => {
+const getMessageStructure = (message, path) => {
 
     const MessageStructure = {
         default: message,
         GCM: { 
             notification: { text: message },
-            data: { message: message }
+            data: { 
+                path: path
+            }
         },
         APNS: {
             aps: { alert: message }
+        },
+        APNS_SANDBOX: {
+            aps: {
+                alert: message
+            }            
         }
     }
 
@@ -63,14 +70,14 @@ const createPushEndpoint = async (token, platform) => {
 
 }
 
-const publishToTarget = async (target, message, subject) => {
+const publishToTarget = async (target, message, subject, path = '') => {
 
     console.log('Entrou no envio de mensagem direta. ')
 
     try {        
 
         const params = {
-            Message: getMessageStructure(message),
+            Message: getMessageStructure(message, path),
             MessageStructure: 'json',
             Subject: subject,
             TargetArn: target
@@ -89,14 +96,14 @@ const publishToTarget = async (target, message, subject) => {
 
 }
 
-const publishToTopic = async (target, message, subject) => {
+const publishToTopic = async (target, message, subject, path = '') => {
 
     console.log('Entrou no envio de mensagem em massa. ')
 
     try {
 
         const params = {
-            Message: getMessageStructure(message),
+            Message: getMessageStructure(message, path),
             MessageStructure: 'json',
             Subject: subject,
             TopicArn: target
