@@ -1,10 +1,7 @@
 const AWS = require('aws-sdk')
 const config= require('config')
 
-AWS.config.update({
-    accessKeyId: config.get('aws.accessKeyId'),
-    secretAccessKey: config.get('aws.secretAccessKey')
-})
+AWS.config.update({ accessKeyId: config.get('aws.accessKeyId'), secretAccessKey: config.get('aws.secretAccessKey') })
 
 const sns = new AWS.SNS({ apiVersion: '2010-03-31', region: 'us-east-1' })
 
@@ -18,6 +15,7 @@ const getMessageStructure = (message) => {
     const MessageStructure = {
         default: message,
         GCM: { 
+            notification: { text: message },
             data: { message: message }
         },
         APNS: {
